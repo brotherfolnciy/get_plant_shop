@@ -1,6 +1,6 @@
 # plant_shop
 
-A new Flutter project.
+A Flutter app for shop plant
 
 ## Getting Started
 
