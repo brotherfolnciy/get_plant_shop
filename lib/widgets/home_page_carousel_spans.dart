@@ -66,6 +66,7 @@ class _HomePageSpansCarouselState extends State<HomePageSpansCarousel>
 
   @override
   Widget build(BuildContext context) {
+    _spanScrollController.animateToItem(0);
     return SizedBox(
       height: 30,
       width: 200,

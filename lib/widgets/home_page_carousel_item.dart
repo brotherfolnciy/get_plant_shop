@@ -6,24 +6,17 @@ class HomePageCarouselItem extends StatelessWidget {
       {Key? key,
       required this.title,
       required this.sizesTitle,
-      required this.imageUrl,
-      required this.price})
+      required this.price,
+      required this.image})
       : super(key: key);
 
   final String title;
   final String sizesTitle;
-  final String imageUrl;
-  final double price;
-
-  late Image image;
-
-  Future getImageFromURL() async {
-    await Image.network("$imageUrl");
-  }
+  final int price;
+  final Image image;
 
   @override
   Widget build(BuildContext context) {
-    image = getImageFromURL();
     return Container(
       decoration: BoxDecoration(
           color: HexColor("F1F4FB"), borderRadius: BorderRadius.circular(40)),
@@ -53,7 +46,10 @@ class HomePageCarouselItem extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              child: image != null ? Image.network("$imageUrl") : Container(),
+              child: FlutterLogo(
+                size: 175,
+                style: FlutterLogoStyle.horizontal,
+              ),
             ),
           ),
           Container(

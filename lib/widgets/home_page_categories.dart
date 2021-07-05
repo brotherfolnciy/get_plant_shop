@@ -8,9 +8,9 @@ class HomePageCategories extends StatefulWidget {
       required this.onSelectedCategoryChange});
 
   final List<String> categories;
-  final Stream<int> stream;
+  final Stream<String> stream;
 
-  final Function(int) onSelectedCategoryChange;
+  final Function(String) onSelectedCategoryChange;
 
   static TextStyle menuUnselectTextStyle = TextStyle(
       fontSize: 17, fontWeight: FontWeight.w700, color: HexColor("#D2D2D2"));
@@ -27,11 +27,11 @@ class _HomePageCategoriesState extends State<HomePageCategories> {
     return Container(
       width: double.infinity,
       height: 35,
-      child: StreamBuilder<int>(
+      child: StreamBuilder<String>(
         stream: widget.stream,
-        initialData: 1,
+        initialData: "concept",
         builder: (context, snapshot) {
-          int? value = snapshot.data;
+          String? value = snapshot.data;
           return Row(
             children: List.generate(
               widget.categories.length,
@@ -39,11 +39,11 @@ class _HomePageCategoriesState extends State<HomePageCategories> {
                 return Container(
                   child: MaterialButton(
                     onPressed: () {
-                      widget.onSelectedCategoryChange(index);
+                      widget.onSelectedCategoryChange(widget.categories[index]);
                     },
                     child: Text(
                       widget.categories[index],
-                      style: index == value
+                      style: widget.categories[index] == value
                           ? HomePageCategories.menuSelectTextStyle
                           : HomePageCategories.menuUnselectTextStyle,
                     ),

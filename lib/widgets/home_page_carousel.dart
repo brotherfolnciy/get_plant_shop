@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
+import 'package:plant_shop/models/plant.dart';
 import 'package:plant_shop/widgets/home_page_carousel_item.dart';
 
 class HomePageCarousel extends StatefulWidget {
-  HomePageCarousel(
-      {required this.itemsCount,
-      required this.anchor,
-      required this.center,
-      required this.velocityFactor,
-      required this.onSelectedItemChange,
-      required this.itemExtent,
-      required this.stream});
+  HomePageCarousel({
+    required this.anchor,
+    required this.center,
+    required this.velocityFactor,
+    required this.onSelectedItemChange,
+    required this.itemExtent,
+    required this.stream,
+    required this.plantsListForBuild,
+  });
 
   final Stream<int> stream;
-  final int itemsCount;
   final double itemExtent;
   final double anchor;
   final bool center;
   final double velocityFactor;
+  final List<Plant> plantsListForBuild;
 
   final Function(int) onSelectedItemChange;
 
@@ -32,6 +34,7 @@ class _HomePageCarouselState extends State<HomePageCarousel> {
   void initState() {
     super.initState();
     _controller = InfiniteScrollController();
+    _controller.animateToItem(0);
     widget.stream.listen((event) {
       _controller.animateToItem(event);
     });
@@ -43,14 +46,11 @@ class _HomePageCarouselState extends State<HomePageCarousel> {
     _controller.dispose();
   }
 
-  setCurrentItem(int index) {
-    _controller.animateToItem(index);
-  }
-
   @override
   Widget build(BuildContext context) {
+    _controller.animateToItem(0);
     return InfiniteCarousel.builder(
-      itemCount: widget.itemsCount,
+      itemCount: widget.plantsListForBuild.length,
       itemExtent: widget.itemExtent,
       center: widget.center,
       anchor: widget.anchor,
@@ -61,6 +61,7 @@ class _HomePageCarouselState extends State<HomePageCarousel> {
         widget.onSelectedItemChange(index);
       },
       itemBuilder: (context, itemIndex, realIndex) {
+        final plant = widget.plantsListForBuild[itemIndex];
         final currentOffset = widget.itemExtent * realIndex;
         return AnimatedBuilder(
           animation: _controller,
@@ -78,15 +79,14 @@ class _HomePageCarouselState extends State<HomePageCarousel> {
             );
           },
           child: Padding(
-              padding:
-                  EdgeInsets.only(left: 25, right: 20, top: 20, bottom: 20),
-              child: HomePageCarouselItem(
-                imageUrl:
-                    "https://clipart-best.com/img/bush/bush-clip-art-2.png",
-                price: 228,
-                sizesTitle: 'w 300 × h 310 mm',
-                title: 'Gasteri Kyoryu',
-              )),
+            padding: EdgeInsets.only(left: 25, right: 20, top: 20, bottom: 20),
+            child: HomePageCarouselItem(
+              image: Image.network(plant.imageUrl),
+              price: plant.price,
+              sizesTitle: "W${plant.width} x H${plant.height}",
+              title: plant.name,
+            ),
+          ),
         );
       },
     );

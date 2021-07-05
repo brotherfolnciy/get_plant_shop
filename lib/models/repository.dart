@@ -1,26 +1,10 @@
-class Plant {
-  final String id;
-  final String name;
-  final String imgUrl;
-  final double price;
-  final int height;
-  final int wight;
-
-  Plant(this.id, this.name, this.imgUrl, this.price, this.height, this.wight);
-}
-
-class CartPlant {
-  final String id;
-  final String name;
-  final int price;
-  final int height;
-  final int wight;
-
-  CartPlant(this.id, this.name, this.price, this.height, this.wight);
-}
+import 'package:plant_shop/models/filter.dart';
+import 'package:plant_shop/models/plant.dart';
 
 class Repository {
   late List<Plant> plants;
+  late List<String> categories;
+  late PlantFilter currentPlantFilter;
 
   Repository() {
     initializeRepository();
@@ -29,33 +13,51 @@ class Repository {
   initializeRepository() {
     plants = [
       Plant(
-          "1",
-          "Gasteri Kyoryu",
-          "https://clipart-best.com/img/bush/bush-clip-art-2.png",
-          228,
-          300,
-          310),
+          1,
+          "Роза",
+          54,
+          11,
+          144,
+          "",
+          "Красивое растение для жены",
+          ["popular", "new", "concept"],
+          ClimateType.Sunny,
+          PlacementType.Garden),
       Plant(
-          "2",
-          "Astrophytum",
-          "https://www.pinclipart.com/picdir/big/86-863584_potted-plants-clipart-transparent-background-transparent-background-plants.png",
-          228,
-          230,
-          340),
+          2,
+          "Ромашка",
+          24,
+          46,
+          56,
+          "",
+          "Красивое растение с белыми лепестками",
+          ["concept"],
+          ClimateType.Sunny,
+          PlacementType.Garden),
+      Plant(3, "Василек", 65, 35, 87, "", "Красивое растение для дома",
+          ["popular", "concept"], ClimateType.Wet, PlacementType.Outdoor),
+      Plant(4, "Тюльпан", 87, 78, 178, "", "Красивое растение для подарка",
+          ["popular", "concept"], ClimateType.Sunny, PlacementType.Garden),
       Plant(
-          "3",
-          "Kyoryu Astrophytum",
-          "https://im0-tub-ru.yandex.net/i?id=251f7e5643363cda9a923486d0afebfb&n=13",
-          228,
-          300,
-          310),
-      Plant(
-          "4",
-          "Gasteri ",
-          "https://static.tildacdn.com/tild3139-6238-4066-b338-353034316232/hotpngcom_6.png",
-          228,
-          300,
-          310)
+          5,
+          "Одуванчик",
+          98,
+          45,
+          50,
+          "",
+          "Красивое растение похожее на парашют",
+          ["new", "concept"],
+          ClimateType.Cold,
+          PlacementType.Outdoor),
     ];
+    categories = ["Concept", "Popular", "New"];
+    currentPlantFilter =
+        PlantFilter("", 1, 100, PlacementType.Garden, ClimateType.Sunny);
   }
+
+  Plant getPlantById(int id) {
+    return plants.where((element) => element.id == id).toList().first;
+  }
+
+  int get plantsCount => plants.length;
 }
