@@ -2,18 +2,18 @@ import 'package:ezanimation/ezanimation.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
+import 'package:plant_shop/Controllers/home_page_carousel_controller.dart';
 
 class HomePageSpansCarousel extends StatefulWidget {
-  HomePageSpansCarousel(
-      {required this.stream,
-      required this.itemsCount,
-      required this.spanPadding,
-      required this.onCurrentSpanChange});
+  HomePageSpansCarousel({
+    required this.itemsCount,
+    required this.spanPadding,
+    required this.controller,
+  });
 
-  final Stream<int> stream;
   final int itemsCount;
   final double spanPadding;
-  final Function(int) onCurrentSpanChange;
+  final HomePageCarouselController controller;
 
   @override
   _HomePageSpansCarouselState createState() =>
@@ -30,18 +30,17 @@ class _HomePageSpansCarouselState extends State<HomePageSpansCarousel>
   @override
   void initState() {
     super.initState();
-
     _spanScrollController = InfiniteScrollController();
 
     controller = new AnimationController(vsync: this);
     animation = EzAnimation.sequence([
-      SequenceItem(widget.spanPadding, 13.0),
+      SequenceItem(widget.spanPadding - 5, 8.0),
     ], Duration(milliseconds: 100), context: context);
 
     animation.addStatusListener((status) => reverseAnimation(status));
 
-    widget.stream.listen((event) {
-      _spanScrollController.animateToItem(event);
+    widget.controller.addListener(() {
+      _spanScrollController.animateToItem(widget.controller.selectedItemIndex);
       animation.start();
     });
   }
@@ -67,51 +66,55 @@ class _HomePageSpansCarouselState extends State<HomePageSpansCarousel>
   @override
   Widget build(BuildContext context) {
     _spanScrollController.animateToItem(0);
-    return SizedBox(
-      height: 30,
-      width: 200,
-      child: Stack(
-        children: [
-          Container(
-            child: InfiniteCarousel.builder(
-              center: true,
-              loop: false,
-              anchor: 0,
-              controller: _spanScrollController,
-              onIndexChanged: (index) {
-                widget.onCurrentSpanChange(index);
-              },
-              itemBuilder: (context, itemIndex, realIndex) {
-                return getCaruselSpan(itemIndex);
-              },
-              itemCount: widget.itemsCount,
-              itemExtent: 40,
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            child: AnimatedBuilder(
-              animation: animation,
-              builder: (context, child) {
-                return Container(
-                  padding: EdgeInsets.all(animation.value),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.black, width: 0.9),
+    return widget.itemsCount > 0
+        ? SizedBox(
+            height: 30,
+            width: 150,
+            child: Stack(
+              children: [
+                Container(
+                  child: InfiniteCarousel.builder(
+                    center: true,
+                    loop: false,
+                    anchor: 0,
+                    controller: _spanScrollController,
+                    onIndexChanged: (index) {
+                      widget.controller.setValue(index);
+                    },
+                    itemBuilder: (context, itemIndex, realIndex) {
+                      return getCaruselSpan(itemIndex);
+                    },
+                    itemCount: widget.itemsCount,
+                    itemExtent: 30,
                   ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.green,
-                    ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  child: AnimatedBuilder(
+                    animation: animation,
+                    builder: (context, child) {
+                      return Container(
+                        height: 19.5,
+                        width: 19.5,
+                        padding: EdgeInsets.all(animation.value),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.black, width: 0.9),
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.green,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          )
+        : Container();
   }
 
   Widget getCaruselSpan(int index) {

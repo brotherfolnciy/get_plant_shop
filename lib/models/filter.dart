@@ -1,11 +1,16 @@
 import 'package:plant_shop/models/plant.dart';
 
+class PlantFilterController {
+  static PlantFilter get emptyPlantFilter =>
+      PlantFilter("", 0.0, 799.0, PlacementType.None, ClimateType.None);
+}
+
 class PlantFilter {
-  final String filterName;
-  final int filterPriceMin;
-  final int filterPriceMax;
-  final PlacementType filterPlacementType;
-  final ClimateType filterClimateType;
+  String filterName;
+  double filterPriceMin;
+  double filterPriceMax;
+  PlacementType filterPlacementType;
+  ClimateType filterClimateType;
 
   PlantFilter(
     this.filterName,
@@ -16,10 +21,12 @@ class PlantFilter {
   );
 
   bool checkPlantByFilter(Plant plant) {
-    if (plant.name.contains(filterName) && filterName.isEmpty) {
+    if (plant.name.toLowerCase().contains(filterName) || filterName.isEmpty) {
       if (plant.price > filterPriceMin && plant.price < filterPriceMax) {
-        if (plant.placementType == filterPlacementType) {
-          if (plant.climateType == filterClimateType) {
+        if (plant.placementType == filterPlacementType ||
+            filterPlacementType == PlacementType.None) {
+          if (plant.climateType == filterClimateType ||
+              filterClimateType == ClimateType.None) {
             return true;
           } else {
             return false;

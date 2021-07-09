@@ -1,28 +1,71 @@
+import 'package:badges/badges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:plant_shop/models/filter.dart';
-import 'package:plant_shop/models/plant.dart';
-import 'package:plant_shop/models/repository.dart';
+import 'package:plant_shop/Controllers/home_page_carousel_controller.dart';
+import 'package:plant_shop/Controllers/home_page_categories_controller.dart';
+import 'package:plant_shop/screens/PlantInformationScreen/PlantInformationBloc.dart';
+import 'package:plant_shop/screens/PlantInformationScreen/PlantInformationBlocScreen.dart';
 import 'package:plant_shop/widgets/home_page_carousel.dart';
-import 'package:plant_shop/widgets/home_page_carousel_spans.dart';
+import 'package:plant_shop/widgets/home_page_carousel_item.dart';
 import 'package:plant_shop/widgets/home_page_categories.dart';
 import 'package:plant_shop/widgets/home_page_filter_panel.dart';
+import 'package:plant_shop/widgets/home_page_search_input_field.dart';
+import 'package:provider/provider.dart';
 
 import 'HomeBloc.dart';
 
+class FilterData {
+  String filterName;
+  double filterPriceMin;
+  double filterPriceMax;
+  String filterPlacementTypeName;
+  String filterClimateTypeName;
+
+  FilterData(
+    this.filterName,
+    this.filterPriceMin,
+    this.filterPriceMax,
+    this.filterPlacementTypeName,
+    this.filterClimateTypeName,
+  );
+}
+
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final homeBloc = HomeBloc(new Repository());
+  final HomePageCarouselController homePageCarouselController =
+      HomePageCarouselController();
+  final HomePageCategoriesController homePageCategoriesController =
+      HomePageCategoriesController();
+
+  late ValueNotifier<bool> filterPanelShowStatus = ValueNotifier<bool>(false);
+  late ValueNotifier<bool> searchInputFieldShowStatus =
+      ValueNotifier<bool>(false);
+  late HomeBloc homeBloc;
+
+  late FilterData filterData = FilterData("", 0, 799, "None", "None");
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: getAppBar(),
-      body: getBody(context),
+    return Consumer<HomeBloc>(
+      builder: (context, homeBloc, child) {
+        this.homeBloc = homeBloc;
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          backgroundColor: Colors.white,
+          body: getBody(context),
+        );
+      },
     );
   }
 
@@ -33,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
       toolbarHeight: 125,
       leadingWidth: 75,
       leading: Container(
-        padding: EdgeInsets.only(left: 5),
+        padding: EdgeInsets.only(left: 7.5),
         child: IconButton(
           onPressed: () {},
           iconSize: 23,
@@ -47,16 +90,29 @@ class _HomeScreenState extends State<HomeScreen> {
         IconButton(
           onPressed: () {},
           iconSize: 23,
-          icon: ImageIcon(
-            AssetImage("assets/images/icons/cart-icon.png"),
-            color: Colors.black,
+          icon: Badge(
+            badgeColor: Theme.of(context).accentColor,
+            alignment: Alignment.topRight,
+            badgeContent: Text(
+              "3",
+              style: TextStyle(color: Colors.white, fontSize: 12),
+            ),
+            child: ImageIcon(
+              AssetImage("assets/images/icons/cart-icon.png"),
+              color: Colors.black,
+            ),
           ),
         ),
         SizedBox(
-          width: 17.5,
+          width: 27.5,
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            !filterPanelShowStatus.value
+                ? setSearchInputFieldShowStatus(
+                    !searchInputFieldShowStatus.value)
+                : print('filter panel must be closed');
+          },
           iconSize: 23,
           icon: ImageIcon(
             AssetImage("assets/images/icons/search-icon.png"),
@@ -72,118 +128,195 @@ class _HomeScreenState extends State<HomeScreen> {
 
   SafeArea getBody(BuildContext context) {
     return SafeArea(
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          StreamBuilder<String>(
-            stream: homeBloc.selectedCategory,
-            initialData: "concept",
-            builder: (context, snapshot) {
-              String selectedCategory = snapshot.data as String;
-              print("Selected category set $selectedCategory");
-              return StreamBuilder<PlantFilter>(
-                stream: homeBloc.plantFilter,
-                initialData: homeBloc.currentPlantFilter,
-                builder: (context, snapshot) {
-                  PlantFilter currentPlantFilter = snapshot.data as PlantFilter;
-                  List<Plant> filteredPlantList = homeBloc.plants
-                      .where((element) =>
-                          element.tags
-                              .contains(selectedCategory.toLowerCase()) &&
-                          currentPlantFilter.checkPlantByFilter(element))
-                      .toList();
-                  return Column(
-                    children: [
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        height: 100,
-                        color: Colors.transparent,
-                        child: Container(
-                          width: double.infinity,
-                          child: HomePageCategories(
-                            categories: homeBloc.categories,
-                            stream: homeBloc.selectedCategory,
-                            onSelectedCategoryChange: setSelectedCategory,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          child: Column(
+      child: Container(
+        child: Column(
+          children: [
+            getAppBar(),
+            SizedBox(
+              height: 10,
+            ),
+            Expanded(
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  StreamBuilder<List<PlantItemData>>(
+                    stream: homeBloc.plantsList,
+                    builder: (context, snapshot) {
+                      late List<PlantItemData> plantsDataList = snapshot.hasData
+                          ? snapshot.data as List<PlantItemData>
+                          : [];
+                      return StreamBuilder<List<String>>(
+                        stream: homeBloc.categoriesList,
+                        builder: (context, snapshot) {
+                          late List<String> categories = snapshot.hasData
+                              ? snapshot.data as List<String>
+                              : [];
+                          homeBloc.initializeBloc();
+                          return Column(
                             children: [
                               Container(
-                                alignment: Alignment.centerRight,
-                                padding: EdgeInsets.only(right: 17.5),
-                                height: 75,
-                                child: IconButton(
-                                  onPressed: () {
-                                    setFilterPanelOpenStatus(true);
-                                  },
-                                  padding: EdgeInsets.all(1),
-                                  icon: ImageIcon(
-                                    AssetImage(
-                                        "assets/images/icons/filter-icon.png"),
-                                    color: Colors.black,
+                                alignment: Alignment.centerLeft,
+                                height: 85,
+                                padding: EdgeInsets.symmetric(horizontal: 15),
+                                color: Colors.transparent,
+                                child: Container(
+                                  width: double.infinity,
+                                  child: HomePageCategories(
+                                    categories: categories,
+                                    onSelectedCategoryChange:
+                                        setSelectedCategory,
+                                    controller: homePageCategoriesController,
                                   ),
                                 ),
                               ),
+                              SizedBox(
+                                height: 5,
+                              ),
                               Expanded(
-                                child: HomePageCarousel(
-                                  stream: homeBloc.caruselSelectedItem,
-                                  anchor: 0.0,
-                                  velocityFactor: 0.2,
-                                  center: false,
-                                  itemExtent: 330,
-                                  onSelectedItemChange: setSelectedItem,
-                                  plantsListForBuild: filteredPlantList,
+                                child: Container(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.centerRight,
+                                        padding: EdgeInsets.only(right: 17.5),
+                                        height: 55,
+                                        child: IconButton(
+                                          iconSize: 28,
+                                          onPressed: () {
+                                            !searchInputFieldShowStatus.value
+                                                ? setFilterPanelShowStatus(true)
+                                                : print(
+                                                    'input field must be close');
+                                          },
+                                          padding: EdgeInsets.all(1),
+                                          icon: ImageIcon(
+                                            AssetImage(
+                                                "assets/images/icons/filter-icon.png"),
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: plantsDataList.length > 0
+                                            ? HomePageCarousel(
+                                                controller:
+                                                    homePageCarouselController,
+                                                anchor: 0.01,
+                                                velocityFactor: 1,
+                                                center: false,
+                                                itemExtent: 315,
+                                                onSelectedItemChange:
+                                                    (value) {},
+                                                plantsListForBuild:
+                                                    plantsDataList,
+                                                onPlantItemTap: (int) {
+                                                  routeToPlantInformationScreen(
+                                                      context);
+                                                  homeBloc.showPlantInformation(
+                                                      int, context);
+                                                },
+                                              )
+                                            : Container(
+                                                alignment: Alignment.center,
+                                                padding:
+                                                    EdgeInsets.only(bottom: 25),
+                                                child: Container(
+                                                  height: 100,
+                                                  child: Column(
+                                                    children: [
+                                                      Text(
+                                                        "🌱",
+                                                        style: TextStyle(
+                                                            fontSize: 32),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Text(
+                                                        "No plants matching this filter..",
+                                                        style: TextStyle(
+                                                            color: Colors.grey,
+                                                            fontSize: 16),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 100,
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.only(left: 25),
-                        child: Container(
-                          child: HomePageSpansCarousel(
-                            stream: homeBloc.caruselSelectedItem,
-                            itemsCount: filteredPlantList.length,
-                            spanPadding: 11.0,
-                            onCurrentSpanChange: setSelectedItem,
-                          ),
-                        ),
-                      )
-                    ],
-                  );
-                },
-              );
-            },
-          ),
-          HomePageFilterPanel(
-              onSetPlantFilter: setSelectedPlantFilter,
-              stream: homeBloc.filterPanelOpenStatus)
-        ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  HomePageFilterPanel(
+                    onSetFilterPanelData: setFilterPanelProperties,
+                    showStatusNotifier: filterPanelShowStatus,
+                  ),
+                  Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    alignment: Alignment.topCenter,
+                    padding: EdgeInsets.only(top: 25),
+                    child: HomePageSearchInputField(
+                      showStatusNotifier: searchInputFieldShowStatus,
+                      onInputComplete: setFilterName,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
-  }
-
-  setSelectedItem(int index) {
-    homeBloc.setCaruselSelectedItem(index);
-    print("Selected item set $index");
   }
 
   setSelectedCategory(String categoryName) {
     homeBloc.setSelectedCategory(categoryName);
   }
 
-  setSelectedPlantFilter(PlantFilter plantFilter) {
-    homeBloc.setPlantFilter(plantFilter);
-    setFilterPanelOpenStatus(false);
+  setFilterName(String filterName) {
+    filterData.filterName = filterName;
+
+    setSelectedPlantFilter();
   }
 
-  setFilterPanelOpenStatus(bool flag) {
-    homeBloc.setFilterPanelOpenStatus(flag);
+  setFilterPanelProperties(FilterPanelData filterPanelData) {
+    filterData.filterPriceMin = filterPanelData.filterPriceMin;
+    filterData.filterPriceMax = filterPanelData.filterPriceMax;
+    filterData.filterClimateTypeName = filterPanelData.filterClimateTypeName;
+    filterData.filterPlacementTypeName =
+        filterPanelData.filterPlacementTypeName;
+
+    setSelectedPlantFilter();
+  }
+
+  setSelectedPlantFilter() {
+    homeBloc.setCurrentFilter(filterData);
+    homeBloc.setViewPlantsDataList();
+    setFilterPanelShowStatus(false);
+  }
+
+  setFilterPanelShowStatus(bool flag) {
+    filterPanelShowStatus.value = flag;
+  }
+
+  setSearchInputFieldShowStatus(bool flag) {
+    searchInputFieldShowStatus.value = flag;
+    FocusScope.of(context).unfocus();
+  }
+
+  routeToPlantInformationScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PlantInformationScreen(),
+      ),
+    );
   }
 }
