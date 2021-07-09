@@ -5,6 +5,7 @@ import 'package:plant_shop/models/plant.dart';
 import 'package:plant_shop/models/repository.dart';
 import 'package:plant_shop/screens/HomeScreen/HomeBlocScreen.dart';
 import 'package:plant_shop/screens/PlantInformationScreen/PlantInformationBloc.dart';
+import 'package:plant_shop/screens/PlantInformationScreen/PlantInformationBlocScreen.dart';
 import 'package:plant_shop/widgets/home_page_carousel_item.dart';
 
 class HomeBloc {
@@ -100,8 +101,14 @@ class HomeBloc {
     _currentPlantFilter = plantFilter;
   }
 
-  void showPlantInformation(int plantId, context) {
-    //plantInformationBloc.
+  PlantInformationData getPlantInformationDataFromPlantId(int plantId) {
+    Plant plant =
+        repository.plants.singleWhere((element) => element.id == plantId);
+
+    PlantInformationData plantInformationData =
+        PlantInformationData(plant.name, plant.price, plant.description);
+
+    return plantInformationData;
   }
 
   //

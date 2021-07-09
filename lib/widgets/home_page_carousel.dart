@@ -101,6 +101,7 @@ class _HomePageCarouselState extends State<HomePageCarousel> {
                             price: plant.price,
                             sizesTitle: plant.sizesTitle,
                             title: plant.title,
+                            id: plant.plantId,
                           ),
                         ),
                       );

@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           dispose: (_, HomeBloc _homeBloc) => _homeBloc.dispose(),
         ),
         Provider<PlantInformationBloc>(
-          create: (_) => PlantInformationBloc(),
+          create: (_) => PlantInformationBloc(repository: repository),
           dispose: (_, PlantInformationBloc _plantInformationBloc) =>
               _plantInformationBloc.dispose(),
         ),

@@ -25,9 +25,11 @@ class HomePageCarouselItem extends StatefulWidget {
       required this.sizesTitle,
       required this.price,
       required this.imageUrl,
-      required this.onPlantItemTap})
+      required this.onPlantItemTap,
+      required this.id})
       : super(key: key);
 
+  final int id;
   final String title;
   final String sizesTitle;
   final int price;
@@ -50,7 +52,9 @@ class _HomePageCarouselItemState extends State<HomePageCarouselItem> {
   Widget build(BuildContext context) {
     return Bounce(
       duration: Duration(milliseconds: 75),
-      onPressed: () {},
+      onPressed: () {
+        widget.onPlantItemTap(widget.id);
+      },
       child: Container(
         decoration: BoxDecoration(
           color: HexColor("F1F4FB"),

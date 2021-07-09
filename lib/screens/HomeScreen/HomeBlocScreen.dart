@@ -209,11 +209,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     (value) {},
                                                 plantsListForBuild:
                                                     plantsDataList,
-                                                onPlantItemTap: (int) {
+                                                onPlantItemTap: (plantId) {
                                                   routeToPlantInformationScreen(
-                                                      context);
-                                                  homeBloc.showPlantInformation(
-                                                      int, context);
+                                                      context, plantId);
                                                 },
                                               )
                                             : Container(
@@ -311,11 +309,14 @@ class _HomeScreenState extends State<HomeScreen> {
     FocusScope.of(context).unfocus();
   }
 
-  routeToPlantInformationScreen(BuildContext context) {
+  routeToPlantInformationScreen(BuildContext context, int plantId) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PlantInformationScreen(),
+        builder: (context) => PlantInformationScreen(
+          plantInformationData:
+              homeBloc.getPlantInformationDataFromPlantId(plantId),
+        ),
       ),
     );
   }

@@ -2,8 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:plant_shop/screens/PlantInformationScreen/PlantInformationBloc.dart';
 import 'package:provider/provider.dart';
 
+class PlantInformationData {
+  final String plantName;
+  final int plantPrice;
+  final String plantdescription;
+
+  PlantInformationData(this.plantName, this.plantPrice, this.plantdescription);
+}
+
 class PlantInformationScreen extends StatefulWidget {
-  PlantInformationScreen({Key? key}) : super(key: key);
+  PlantInformationScreen({Key? key, required this.plantInformationData})
+      : super(key: key);
+
+  final PlantInformationData plantInformationData;
 
   @override
   _PlantInformationScreenState createState() => _PlantInformationScreenState();
@@ -27,8 +38,12 @@ class _PlantInformationScreenState extends State<PlantInformationScreen> {
 
   SafeArea getBody() {
     return SafeArea(
-      child: Stack(
-        children: [],
+      child: Column(
+        children: [
+          Text('${widget.plantInformationData.plantName}'),
+          Text('${widget.plantInformationData.plantPrice}'),
+          Text('${widget.plantInformationData.plantdescription}'),
+        ],
       ),
     );
   }
