@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:plant_shop/Controllers/home_page_carousel_controller.dart';
-import 'package:plant_shop/widgets/home_page_carousel_item.dart';
-import 'package:plant_shop/widgets/home_page_carousel_spans.dart';
+import 'package:plant_shop/widgets/HomePage/home_page_carousel_item.dart';
+import 'package:plant_shop/widgets/HomePage/home_page_carousel_spans.dart';
 
 class HomePageCarousel extends StatefulWidget {
   HomePageCarousel({

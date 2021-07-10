@@ -2,6 +2,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:flutter_hex_color/flutter_hex_color.dart';
+import 'package:plant_shop/widgets/price_text.dart';
 
 class PlantItemData {
   PlantItemData(
@@ -124,28 +125,7 @@ class _HomePageCarouselItemState extends State<HomePageCarouselItem> {
                     padding: EdgeInsets.only(left: 27.5),
                     height: 40,
                     width: 100,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      textBaseline: TextBaseline.ideographic,
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      children: [
-                        Text(
-                          "\$",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          "${widget.price}",
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          ".00",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
+                    child: PriceText(widget.price),
                   ),
                   TextButton(
                     onPressed: () {},
