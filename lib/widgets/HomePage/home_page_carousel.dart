@@ -110,10 +110,10 @@ class _HomePageCarouselState extends State<HomePageCarousel> {
                 )
               : Container(),
           SizedBox(
-            height: 5,
+            height: 25,
           ),
           Container(
-            height: 80,
+            height: 40,
             alignment: Alignment.center,
             padding: EdgeInsets.only(left: 25),
             child: Container(

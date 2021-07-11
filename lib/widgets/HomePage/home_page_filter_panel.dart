@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hex_color/flutter_hex_color.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class FilterPanelData {
@@ -40,6 +39,8 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
   late ValueNotifier<SfRangeValues> currentPriceRangeValues =
       ValueNotifier<SfRangeValues>(SfRangeValues(0, 799));
 
+  late Color accentColor;
+
   @override
   void initState() {
     super.initState();
@@ -63,6 +64,7 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
 
   @override
   Widget build(BuildContext context) {
+    accentColor = Theme.of(context).accentColor;
     return Container(
       child: ValueListenableBuilder(
         valueListenable: widget.showStatusNotifier,
@@ -98,7 +100,7 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
                         Container(
                           height: 100,
                           padding:
-                              EdgeInsets.only(top: 25, right: 15, left: 15),
+                              EdgeInsets.only(top: 35, right: 10, left: 15),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -131,8 +133,7 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
                               height: 125,
                               padding: EdgeInsets.symmetric(horizontal: 15),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   getPlacementChoiceButton(
                                     'Indoor',
@@ -194,7 +195,7 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
                                           max: 799.0,
                                           enableTooltip: true,
                                           tooltipShape: SfPaddleTooltipShape(),
-                                          activeColor: HexColor("28CA6B"),
+                                          activeColor: accentColor,
                                           values: filterPriceRangeValues,
                                           stepSize: 1.0,
                                           onChanged: (values) {
@@ -295,8 +296,8 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
                                     ),
                                   ),
                                   child: Container(
-                                    height: 25,
-                                    width: 45,
+                                    height: 35,
+                                    width: 50,
                                     alignment: Alignment.center,
                                     child: Text(
                                       "XL   ▴",
@@ -332,80 +333,107 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
       String selectedPlacementTypeName,
       Function(String) onSelectPlacementType) {
     bool isSelected = selectedPlacementTypeName == placementTypeName;
-    return TextButton(
-      onPressed: () {
-        onSelectPlacementType(placementTypeName);
-      },
-      style: ButtonStyle(
-        elevation: MaterialStateProperty.all<double>(
-          isSelected ? 5 : 0,
-        ),
-        backgroundColor: MaterialStateProperty.all<Color>(
-          isSelected ? HexColor("28CA6B") : Colors.grey.shade50,
-        ),
-        overlayColor: MaterialStateProperty.all<Color>(
-            isSelected ? Colors.white12 : Colors.black12),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(17.5),
-            side: BorderSide(
-                color: isSelected ? HexColor("28CA6B") : Colors.grey.shade300),
+    return Container(
+      margin: EdgeInsets.only(right: 17.5),
+      child: TextButton(
+        onPressed: () {
+          onSelectPlacementType(placementTypeName);
+        },
+        style: ButtonStyle(
+          elevation: MaterialStateProperty.all<double>(
+            isSelected ? 5 : 0,
+          ),
+          backgroundColor: MaterialStateProperty.all<Color>(
+            isSelected ? accentColor : Colors.grey.shade50,
+          ),
+          overlayColor: MaterialStateProperty.all<Color>(
+              isSelected ? Colors.white12 : Colors.black12),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(19),
+              side: BorderSide(
+                  color: isSelected ? accentColor : Colors.grey.shade300),
+            ),
+          ),
+          shadowColor: MaterialStateProperty.all<Color>(
+            isSelected ? Colors.lightGreen : Colors.white,
           ),
         ),
-        shadowColor: MaterialStateProperty.all<Color>(
-          isSelected ? Colors.lightGreen : Colors.white,
-        ),
-      ),
-      child: Container(
-        alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width * 0.2,
-        height: 25,
-        child: Text(
-          placementTypeName.toUpperCase(),
-          style: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.bold,
-            color: isSelected ? Colors.white : Colors.black,
+        child: Container(
+          alignment: Alignment.center,
+          width: MediaQuery.of(context).size.width * 0.18,
+          height: 28.5,
+          child: Text(
+            placementTypeName.toUpperCase(),
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+              color: isSelected ? Colors.white : Colors.black,
+            ),
           ),
         ),
       ),
     );
   }
-}
 
-Widget getClimateChoiceButton(String iconPath, String climateTypeName,
-    String selectedClimateTypeName, Function(String) onSelectClimateType) {
-  bool isSelected = selectedClimateTypeName == climateTypeName;
-  return TextButton(
-    onPressed: () {
-      onSelectClimateType(climateTypeName);
-    },
-    style: ButtonStyle(
-      minimumSize: MaterialStateProperty.all<Size>(
-        Size(47.5, 47.5),
+  Widget getClimateChoiceButton(String iconPath, String climateTypeName,
+      String selectedClimateTypeName, Function(String) onSelectClimateType) {
+    bool isSelected = selectedClimateTypeName == climateTypeName;
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 2,
+          ),
+          isSelected
+              ? Container(
+                  height: 23,
+                  child: Text(
+                    climateTypeName,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                )
+              : Container(
+                  height: 23,
+                ),
+          TextButton(
+            onPressed: () {
+              onSelectClimateType(climateTypeName);
+            },
+            style: ButtonStyle(
+              minimumSize: MaterialStateProperty.all<Size>(
+                Size(55, 50),
+              ),
+              backgroundColor: MaterialStateProperty.all<Color>(
+                isSelected ? accentColor : Colors.grey.shade50,
+              ),
+              overlayColor: MaterialStateProperty.all<Color>(
+                  isSelected ? Colors.white12 : Colors.black12),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: BorderSide(
+                      color: isSelected ? accentColor : Colors.grey.shade400),
+                ),
+              ),
+              shadowColor: MaterialStateProperty.all<Color>(
+                isSelected ? Colors.lightGreen : Colors.white,
+              ),
+            ),
+            child: SizedBox(
+              height: 20,
+              child: ImageIcon(
+                AssetImage(iconPath),
+                color: isSelected ? Colors.white : Colors.black,
+              ),
+            ),
+          ),
+        ],
       ),
-      backgroundColor: MaterialStateProperty.all<Color>(
-        isSelected ? HexColor("28CA6B") : Colors.grey.shade50,
-      ),
-      overlayColor: MaterialStateProperty.all<Color>(
-          isSelected ? Colors.white12 : Colors.black12),
-      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: BorderSide(
-              color: isSelected ? HexColor("28CA6B") : Colors.grey.shade400),
-        ),
-      ),
-      shadowColor: MaterialStateProperty.all<Color>(
-        isSelected ? Colors.lightGreen : Colors.white,
-      ),
-    ),
-    child: SizedBox(
-      height: 20,
-      child: ImageIcon(
-        AssetImage(iconPath),
-        color: isSelected ? Colors.white : Colors.black,
-      ),
-    ),
-  );
+    );
+  }
 }

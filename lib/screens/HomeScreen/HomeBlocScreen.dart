@@ -70,7 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   AppBar getAppBar() {
-    //FullScreen.enterFullScreen(FullScreenMode.EMERSIVE_STICKY);
     return AppBar(
       backgroundColor: Colors.transparent,
       shadowColor: Colors.transparent,
@@ -129,7 +128,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Container getBody(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(bottom: 30),
       child: Column(
         children: [
           getAppBar(),
@@ -243,6 +241,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ],
                                 ),
                               ),
+                            ),
+                            SizedBox(
+                              height: 60,
                             ),
                           ],
                         );

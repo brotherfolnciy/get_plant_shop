@@ -18,12 +18,12 @@ class _ExpandableTextState extends State<ExpandableText>
     return new Column(children: <Widget>[
       new AnimatedSize(
         vsync: this,
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 200),
         child: new ConstrainedBox(
           constraints: widget.isExpanded
               ? new BoxConstraints()
               : new BoxConstraints(
-                  maxHeight: 53.0,
+                  maxHeight: 55.0,
                   maxWidth: MediaQuery.of(context).size.width * 0.75),
           child: new Text(
             widget.text,
@@ -33,14 +33,6 @@ class _ExpandableTextState extends State<ExpandableText>
           ),
         ),
       ),
-      widget.isExpanded
-          ? new ConstrainedBox(constraints: new BoxConstraints())
-          : new GestureDetector(
-              child: const Text('...'),
-              onTap: () => setState(
-                () => widget.isExpanded = true,
-              ),
-            )
     ]);
   }
 }

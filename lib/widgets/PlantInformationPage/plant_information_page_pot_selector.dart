@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
-import 'package:flutter_hex_color/flutter_hex_color.dart';
 
 class Pot {
   Pot(this.potName, this.imageFilePath);

@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hex_color/flutter_hex_color.dart';
 import 'package:plant_shop/screens/PlantInformationScreen/PlantInformationBloc.dart';
 import 'package:plant_shop/widgets/PlantInformationPage/plant_information_page_counter.dart';
+import 'package:plant_shop/widgets/PlantInformationPage/plant_information_page_description_panel.dart';
+import 'package:plant_shop/widgets/PlantInformationPage/plant_information_page_description_text.dart';
 import 'package:plant_shop/widgets/PlantInformationPage/plant_information_page_favourites_button.dart';
+import 'package:plant_shop/widgets/PlantInformationPage/plant_information_page_information_panel.dart';
 import 'package:plant_shop/widgets/PlantInformationPage/plant_information_page_pot_selector.dart';
 import 'package:plant_shop/widgets/expandable_text.dart';
 import 'package:plant_shop/widgets/price_text.dart';
@@ -12,10 +15,10 @@ import 'package:provider/provider.dart';
 class PlantInformationData {
   final String plantName;
   final int plantPrice;
-  final String plantdescription;
+  final String plantDescription;
   final String plantImageUrl;
 
-  PlantInformationData(this.plantName, this.plantPrice, this.plantdescription,
+  PlantInformationData(this.plantName, this.plantPrice, this.plantDescription,
       this.plantImageUrl);
 }
 
@@ -31,6 +34,9 @@ class PlantInformationScreen extends StatefulWidget {
 
 class _PlantInformationScreenState extends State<PlantInformationScreen> {
   late PlantInformationBloc plantInformationBloc;
+
+  late ValueNotifier<bool> descriptionPanelShowStatus =
+      ValueNotifier<bool>(false);
 
   @override
   Widget build(BuildContext context) {
@@ -107,189 +113,17 @@ class _PlantInformationScreenState extends State<PlantInformationScreen> {
               ),
             ),
           ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            height: double.infinity,
-            width: double.infinity,
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.616,
-              padding: EdgeInsets.only(left: 40, right: 40, top: 60),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(45),
-                  topRight: Radius.circular(45),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 0.1,
-                    blurRadius: 10,
-                    offset: Offset(0, 0),
-                  )
-                ],
-              ),
-              child: Container(
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: Container(
-                        padding: EdgeInsets.only(top: 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "${widget.plantInformationData.plantName}",
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            PriceText(widget.plantInformationData.plantPrice),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Container(
-                        padding: EdgeInsets.only(top: 30),
-                        alignment: Alignment.centerLeft,
-                        child: PlantInformationPageCounter(
-                          onCountChange: (value) {},
-                        ),
-                      ),
-                    ),
-                    Flexible(
-                      flex: 2,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(top: 30, bottom: 5),
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Select Pot".toUpperCase(),
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          PlantInformationPagePotSelector(
-                            itemHeight: 80,
-                            itemWidth: 80,
-                            itemsPadding: 40,
-                            pots: [
-                              Pot('', 'assets/images/pots/pot_1.png'),
-                              Pot('', 'assets/images/pots/pot_2.png'),
-                              Pot('', "assets/images/pots/pot_3.png"),
-                            ],
-                            onPotSelect: (pot) {},
-                          ),
-                        ],
-                      ),
-                    ),
-                    Flexible(
-                      flex: 2,
-                      child: Container(
-                        padding: EdgeInsets.only(top: 35),
-                        child: Column(
-                          children: [
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "Description".toUpperCase(),
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(top: 5),
-                              height: 90,
-                              alignment: Alignment.centerLeft,
-                              child: ExpandableText(
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tincidunt lobortis erat. Cras sit amet imperdiet sapien. Pellentesque feugiat sem nunc, eget pharetra ante pulvinar eget",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.black38,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: TextButton(
-                        onPressed: () {},
-                        style: ButtonStyle(
-                          overlayColor: MaterialStateProperty.all<Color>(
-                              Colors.white.withOpacity(0.45)),
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                          ),
-                        ),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.symmetric(horizontal: 70),
-                          child: Container(
-                            height: 45,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                ImageIcon(
-                                  AssetImage(
-                                      "assets/images/icons/cart-icon.png"),
-                                  color: Colors.white,
-                                  size: 18,
-                                ),
-                                Text(
-                                  'Add to cart'.toUpperCase(),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                SizedBox(),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          PlantInformationPageInformationPanel(
+            plantInformationData: widget.plantInformationData,
+            onDetailTap: () {
+              descriptionPanelShowStatus.value = true;
+            },
           ),
-          // Text('${widget.plantInformationData.plantName}'),
-          // Text('${widget.plantInformationData.plantPrice}'),
-          // Text('${widget.plantInformationData.plantdescription}'),
+          PlantInformationPageDescriptionPanel(
+            text: widget.plantInformationData.plantDescription,
+            showStatusNotifier: descriptionPanelShowStatus,
+          ),
         ],
-      ),
-    );
-  }
-
-  Widget getPotItem(String potName, String currentPotName, String imageUrl) {
-    bool isSelected = currentPotName == potName ? true : false;
-    return Container(
-      width: 85,
-      margin: EdgeInsets.only(right: 20),
-      decoration: BoxDecoration(
-        color: Colors.green,
-        borderRadius: BorderRadius.circular(15),
       ),
     );
   }

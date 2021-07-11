@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           backgroundColor: Colors.white,
           fontFamily: GoogleFonts.lato().fontFamily,
-          accentColor: HexColor("28CA6B"),
+          accentColor: HexColor("20B25D"),
         ),
         home: HomeScreen(),
       ),

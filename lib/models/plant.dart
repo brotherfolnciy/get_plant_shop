@@ -1,7 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
-
 enum ClimateType { Wet, Sunny, Cold, None }
 enum PlacementType { Indoor, Outdoor, Garden, None }
 
