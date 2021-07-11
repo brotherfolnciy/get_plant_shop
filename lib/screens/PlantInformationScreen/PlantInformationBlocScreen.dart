@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hex_color/flutter_hex_color.dart';
 import 'package:plant_shop/screens/PlantInformationScreen/PlantInformationBloc.dart';
 import 'package:plant_shop/widgets/PlantInformationPage/plant_information_page_counter.dart';
+import 'package:plant_shop/widgets/PlantInformationPage/plant_information_page_favourites_button.dart';
+import 'package:plant_shop/widgets/PlantInformationPage/plant_information_page_pot_selector.dart';
+import 'package:plant_shop/widgets/expandable_text.dart';
 import 'package:plant_shop/widgets/price_text.dart';
 import 'package:provider/provider.dart';
-import 'package:readmore/readmore.dart';
 
 class PlantInformationData {
   final String plantName;
@@ -44,17 +46,18 @@ class _PlantInformationScreenState extends State<PlantInformationScreen> {
     );
   }
 
-  SafeArea getBody() {
-    return SafeArea(
+  Container getBody() {
+    return Container(
+      padding: EdgeInsets.only(top: 30),
       child: Stack(
         children: [
           Container(
             alignment: Alignment.topCenter,
             height: double.infinity,
             width: double.infinity,
-            padding: EdgeInsets.only(top: 50),
+            padding: EdgeInsets.only(top: 65),
             child: Container(
-              height: 220,
+              height: 230,
               child: ExtendedImage.network(
                 widget.plantInformationData.plantImageUrl,
                 fit: BoxFit.cover,
@@ -96,17 +99,8 @@ class _PlantInformationScreenState extends State<PlantInformationScreen> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(right: 25),
-                    child: CircleAvatar(
-                      radius: 25,
-                      backgroundColor: Colors.white,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: ImageIcon(
-                          AssetImage("assets/images/icons/heart-icon.png"),
-                          color: Theme.of(context).accentColor,
-                        ),
-                      ),
+                    child: PlantInformationPageFavouritesButton(
+                      onPressed: (isPressed) {},
                     ),
                   ),
                 ],
@@ -139,113 +133,142 @@ class _PlantInformationScreenState extends State<PlantInformationScreen> {
                 width: double.infinity,
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "${widget.plantInformationData.plantName}",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        PriceText(widget.plantInformationData.plantPrice),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: PlantInformationPageCounter(
-                        onCountChange: (value) {},
-                      ),
-                    ),
-                    SizedBox(
-                      height: 35,
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Select Pot".toUpperCase(),
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      height: 85,
-                      width: 500,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 3,
-                        itemBuilder: (context, index) {
-                          return getPotItem('', '', '');
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: 35,
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Description".toUpperCase(),
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 85,
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        overlayColor: MaterialStateProperty.all<Color>(
-                            Colors.white.withOpacity(0.45)),
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.black),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(7),
-                          ),
-                        ),
-                      ),
+                    Flexible(
+                      flex: 1,
                       child: Container(
-                        //height: 60,
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.symmetric(horizontal: 70),
-                        child: Container(
-                          height: 50,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              ImageIcon(
-                                AssetImage("assets/images/icons/cart-icon.png"),
-                                color: Colors.white,
-                                size: 18,
+                        padding: EdgeInsets.only(top: 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "${widget.plantInformationData.plantName}",
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
                               ),
-                              Text(
-                                'Add to cart'.toUpperCase(),
+                            ),
+                            PriceText(widget.plantInformationData.plantPrice),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child: Container(
+                        padding: EdgeInsets.only(top: 30),
+                        alignment: Alignment.centerLeft,
+                        child: PlantInformationPageCounter(
+                          onCountChange: (value) {},
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      flex: 2,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(top: 30, bottom: 5),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Select Pot".toUpperCase(),
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          PlantInformationPagePotSelector(
+                            itemHeight: 80,
+                            itemWidth: 80,
+                            itemsPadding: 40,
+                            pots: [
+                              Pot('', 'assets/images/pots/pot_1.png'),
+                              Pot('', 'assets/images/pots/pot_2.png'),
+                              Pot('', "assets/images/pots/pot_3.png"),
+                            ],
+                            onPotSelect: (pot) {},
+                          ),
+                        ],
+                      ),
+                    ),
+                    Flexible(
+                      flex: 2,
+                      child: Container(
+                        padding: EdgeInsets.only(top: 35),
+                        child: Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Description".toUpperCase(),
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  fontSize: 11,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 12,
                                 ),
                               ),
-                              SizedBox(),
-                            ],
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(top: 5),
+                              height: 90,
+                              alignment: Alignment.centerLeft,
+                              child: ExpandableText(
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tincidunt lobortis erat. Cras sit amet imperdiet sapien. Pellentesque feugiat sem nunc, eget pharetra ante pulvinar eget",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black38,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child: TextButton(
+                        onPressed: () {},
+                        style: ButtonStyle(
+                          overlayColor: MaterialStateProperty.all<Color>(
+                              Colors.white.withOpacity(0.45)),
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.black),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                          ),
+                        ),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.symmetric(horizontal: 70),
+                          child: Container(
+                            height: 45,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                ImageIcon(
+                                  AssetImage(
+                                      "assets/images/icons/cart-icon.png"),
+                                  color: Colors.white,
+                                  size: 18,
+                                ),
+                                Text(
+                                  'Add to cart'.toUpperCase(),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                SizedBox(),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

@@ -70,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   AppBar getAppBar() {
+    //FullScreen.enterFullScreen(FullScreenMode.EMERSIVE_STICKY);
     return AppBar(
       backgroundColor: Colors.transparent,
       shadowColor: Colors.transparent,
@@ -126,150 +127,147 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  SafeArea getBody(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        child: Column(
-          children: [
-            getAppBar(),
-            SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  StreamBuilder<List<PlantItemData>>(
-                    stream: homeBloc.plantsList,
-                    builder: (context, snapshot) {
-                      late List<PlantItemData> plantsDataList = snapshot.hasData
-                          ? snapshot.data as List<PlantItemData>
-                          : [];
-                      return StreamBuilder<List<String>>(
-                        stream: homeBloc.categoriesList,
-                        builder: (context, snapshot) {
-                          late List<String> categories = snapshot.hasData
-                              ? snapshot.data as List<String>
-                              : [];
-                          homeBloc.initializeBloc();
-                          return Column(
-                            children: [
-                              Container(
-                                alignment: Alignment.centerLeft,
-                                height: 85,
-                                padding: EdgeInsets.symmetric(horizontal: 15),
-                                color: Colors.transparent,
-                                child: Container(
-                                  width: double.infinity,
-                                  child: HomePageCategories(
-                                    categories: categories,
-                                    onSelectedCategoryChange:
-                                        setSelectedCategory,
-                                    controller: homePageCategoriesController,
-                                  ),
+  Container getBody(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(bottom: 30),
+      child: Column(
+        children: [
+          getAppBar(),
+          SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                StreamBuilder<List<PlantItemData>>(
+                  stream: homeBloc.plantsList,
+                  builder: (context, snapshot) {
+                    late List<PlantItemData> plantsDataList = snapshot.hasData
+                        ? snapshot.data as List<PlantItemData>
+                        : [];
+                    return StreamBuilder<List<String>>(
+                      stream: homeBloc.categoriesList,
+                      builder: (context, snapshot) {
+                        late List<String> categories = snapshot.hasData
+                            ? snapshot.data as List<String>
+                            : [];
+                        homeBloc.initializeBloc();
+                        return Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              height: 85,
+                              padding: EdgeInsets.symmetric(horizontal: 15),
+                              color: Colors.transparent,
+                              child: Container(
+                                width: double.infinity,
+                                child: HomePageCategories(
+                                  categories: categories,
+                                  onSelectedCategoryChange: setSelectedCategory,
+                                  controller: homePageCategoriesController,
                                 ),
                               ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        alignment: Alignment.centerRight,
-                                        padding: EdgeInsets.only(right: 17.5),
-                                        height: 55,
-                                        child: IconButton(
-                                          iconSize: 28,
-                                          onPressed: () {
-                                            !searchInputFieldShowStatus.value
-                                                ? setFilterPanelShowStatus(true)
-                                                : print(
-                                                    'input field must be close');
-                                          },
-                                          padding: EdgeInsets.all(1),
-                                          icon: ImageIcon(
-                                            AssetImage(
-                                                "assets/images/icons/filter-icon.png"),
-                                            color: Colors.black,
-                                          ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Expanded(
+                              child: Container(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.centerRight,
+                                      padding: EdgeInsets.only(right: 17.5),
+                                      height: 55,
+                                      child: IconButton(
+                                        iconSize: 28,
+                                        onPressed: () {
+                                          !searchInputFieldShowStatus.value
+                                              ? setFilterPanelShowStatus(true)
+                                              : print(
+                                                  'input field must be close');
+                                        },
+                                        padding: EdgeInsets.all(1),
+                                        icon: ImageIcon(
+                                          AssetImage(
+                                              "assets/images/icons/filter-icon.png"),
+                                          color: Colors.black,
                                         ),
                                       ),
-                                      Expanded(
-                                        child: plantsDataList.length > 0
-                                            ? HomePageCarousel(
-                                                controller:
-                                                    homePageCarouselController,
-                                                anchor: 0.01,
-                                                velocityFactor: 1,
-                                                center: false,
-                                                itemExtent: 315,
-                                                onSelectedItemChange:
-                                                    (value) {},
-                                                plantsListForBuild:
-                                                    plantsDataList,
-                                                onPlantItemTap: (plantId) {
-                                                  routeToPlantInformationScreen(
-                                                      context, plantId);
-                                                },
-                                              )
-                                            : Container(
-                                                alignment: Alignment.center,
-                                                padding:
-                                                    EdgeInsets.only(bottom: 25),
-                                                child: Container(
-                                                  height: 100,
-                                                  child: Column(
-                                                    children: [
-                                                      Text(
-                                                        "🌱",
-                                                        style: TextStyle(
-                                                            fontSize: 32),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      Text(
-                                                        "No plants matching this filter..",
-                                                        style: TextStyle(
-                                                            color: Colors.grey,
-                                                            fontSize: 16),
-                                                      ),
-                                                    ],
-                                                  ),
+                                    ),
+                                    Expanded(
+                                      child: plantsDataList.length > 0
+                                          ? HomePageCarousel(
+                                              controller:
+                                                  homePageCarouselController,
+                                              anchor: 0.01,
+                                              velocityFactor: 1,
+                                              center: false,
+                                              itemExtent: 315,
+                                              onSelectedItemChange: (value) {},
+                                              plantsListForBuild:
+                                                  plantsDataList,
+                                              onPlantItemTap: (plantId) {
+                                                routeToPlantInformationScreen(
+                                                    context, plantId);
+                                              },
+                                            )
+                                          : Container(
+                                              alignment: Alignment.center,
+                                              padding:
+                                                  EdgeInsets.only(bottom: 100),
+                                              child: Container(
+                                                height: 100,
+                                                child: Column(
+                                                  children: [
+                                                    Text(
+                                                      "🌱",
+                                                      style: TextStyle(
+                                                          fontSize: 32),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Text(
+                                                      "No plants matching this filter..",
+                                                      style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontSize: 16),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                      ),
-                                    ],
-                                  ),
+                                            ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          );
-                        },
-                      );
-                    },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+                HomePageFilterPanel(
+                  onSetFilterPanelData: setFilterPanelProperties,
+                  showStatusNotifier: filterPanelShowStatus,
+                ),
+                Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  alignment: Alignment.topCenter,
+                  padding: EdgeInsets.only(top: 25),
+                  child: HomePageSearchInputField(
+                    showStatusNotifier: searchInputFieldShowStatus,
+                    onInputComplete: setFilterName,
                   ),
-                  HomePageFilterPanel(
-                    onSetFilterPanelData: setFilterPanelProperties,
-                    showStatusNotifier: filterPanelShowStatus,
-                  ),
-                  Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    alignment: Alignment.topCenter,
-                    padding: EdgeInsets.only(top: 25),
-                    child: HomePageSearchInputField(
-                      showStatusNotifier: searchInputFieldShowStatus,
-                      onInputComplete: setFilterName,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

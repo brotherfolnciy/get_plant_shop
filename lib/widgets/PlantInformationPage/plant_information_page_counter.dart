@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bounce/flutter_bounce.dart';
 
 class PlantInformationPageCounter extends StatefulWidget {
   PlantInformationPageCounter({Key? key, required this.onCountChange})
@@ -30,8 +31,8 @@ class _PlantInformationPageCounterState
       valueListenable: count,
       builder: (context, value, child) {
         return Container(
-          height: 36.5,
-          width: 111,
+          height: 32.5,
+          width: 100,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border.all(color: Colors.grey.shade300),
@@ -40,28 +41,53 @@ class _PlantInformationPageCounterState
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(
-                iconSize: 12,
-                onPressed: () {
-                  setCountValue(-1);
-                },
-                icon: ImageIcon(
-                  AssetImage("assets/images/icons/dicrement-icon.png"),
+              Flexible(
+                flex: 1,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Bounce(
+                    duration: Duration(
+                      milliseconds: 100,
+                    ),
+                    onPressed: () {
+                      setCountValue(-1);
+                    },
+                    child: ImageIcon(
+                      AssetImage("assets/images/icons/dicrement-icon.png"),
+                      size: 12,
+                    ),
+                  ),
                 ),
               ),
-              Text(
-                "${count.value}",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              Flexible(
+                flex: 1,
+                child: Container(
+                  child: Text(
+                    "${count.value}",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
-              IconButton(
-                iconSize: 18,
-                onPressed: () {
-                  setCountValue(1);
-                },
-                icon: Icon(Icons.add),
+              Flexible(
+                flex: 1,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Bounce(
+                    duration: Duration(
+                      milliseconds: 100,
+                    ),
+                    onPressed: () {
+                      setCountValue(1);
+                    },
+                    child: Icon(
+                      Icons.add,
+                      size: 22,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
