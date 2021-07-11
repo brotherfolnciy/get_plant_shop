@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:plant_shop/Controllers/home_page_carousel_controller.dart';
 import 'package:plant_shop/Controllers/home_page_categories_controller.dart';
-import 'package:plant_shop/screens/PlantInformationScreen/PlantInformationBloc.dart';
 import 'package:plant_shop/screens/PlantInformationScreen/PlantInformationBlocScreen.dart';
 import 'package:plant_shop/widgets/HomePage/home_page_carousel.dart';
 import 'package:plant_shop/widgets/HomePage/home_page_carousel_item.dart';

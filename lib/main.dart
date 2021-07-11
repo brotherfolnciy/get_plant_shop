@@ -6,7 +6,6 @@ import 'package:plant_shop/screens/HomeScreen/HomeBloc.dart';
 import 'package:plant_shop/screens/HomeScreen/HomeBlocScreen.dart';
 import 'package:flutter/services.dart';
 import 'package:plant_shop/screens/PlantInformationScreen/PlantInformationBloc.dart';
-import 'package:plant_shop/screens/PlantInformationScreen/PlantInformationBlocScreen.dart';
 import 'package:provider/provider.dart';
 
 void main() {

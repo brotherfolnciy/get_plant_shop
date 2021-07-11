@@ -211,7 +211,8 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
                           ),
                         ),
                         Container(
-                          height: 100,
+                          height: 120,
+                          alignment: Alignment.center,
                           child: Row(
                             children: [
                               Expanded(
@@ -269,7 +270,7 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
                               ),
                               Container(
                                 width: 120,
-                                height: 100,
+                                height: 120,
                                 alignment: Alignment.centerRight,
                                 padding: EdgeInsets.only(right: 15),
                                 child: TextButton(
@@ -296,7 +297,7 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
                                     ),
                                   ),
                                   child: Container(
-                                    height: 35,
+                                    height: 30,
                                     width: 50,
                                     alignment: Alignment.center,
                                     child: Text(
@@ -380,26 +381,11 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
       String selectedClimateTypeName, Function(String) onSelectClimateType) {
     bool isSelected = selectedClimateTypeName == climateTypeName;
     return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+      height: 120,
+      alignment: Alignment.center,
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          SizedBox(
-            height: 2,
-          ),
-          isSelected
-              ? Container(
-                  height: 23,
-                  child: Text(
-                    climateTypeName,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
-                  ),
-                )
-              : Container(
-                  height: 23,
-                ),
           TextButton(
             onPressed: () {
               onSelectClimateType(climateTypeName);
@@ -415,7 +401,7 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
                   isSelected ? Colors.white12 : Colors.black12),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(12.5),
                   side: BorderSide(
                       color: isSelected ? accentColor : Colors.grey.shade400),
                 ),
@@ -432,6 +418,21 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
               ),
             ),
           ),
+          isSelected
+              ? Container(
+                  height: 85,
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    climateTypeName.toUpperCase(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10.5,
+                    ),
+                  ),
+                )
+              : Container(
+                  height: 1,
+                ),
         ],
       ),
     );

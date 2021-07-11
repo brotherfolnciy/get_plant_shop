@@ -58,7 +58,7 @@ class _HomePageCarouselItemState extends State<HomePageCarouselItem> {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: HexColor("F1F4FB"),
+          color: HexColor("F1F4FB").withOpacity(0.7),
           borderRadius: BorderRadius.circular(35),
         ),
         child: Column(

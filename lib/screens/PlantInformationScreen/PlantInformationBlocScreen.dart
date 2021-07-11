@@ -2,14 +2,8 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hex_color/flutter_hex_color.dart';
 import 'package:plant_shop/screens/PlantInformationScreen/PlantInformationBloc.dart';
-import 'package:plant_shop/widgets/PlantInformationPage/plant_information_page_counter.dart';
-import 'package:plant_shop/widgets/PlantInformationPage/plant_information_page_description_panel.dart';
-import 'package:plant_shop/widgets/PlantInformationPage/plant_information_page_description_text.dart';
 import 'package:plant_shop/widgets/PlantInformationPage/plant_information_page_favourites_button.dart';
 import 'package:plant_shop/widgets/PlantInformationPage/plant_information_page_information_panel.dart';
-import 'package:plant_shop/widgets/PlantInformationPage/plant_information_page_pot_selector.dart';
-import 'package:plant_shop/widgets/expandable_text.dart';
-import 'package:plant_shop/widgets/price_text.dart';
 import 'package:provider/provider.dart';
 
 class PlantInformationData {
@@ -34,9 +28,6 @@ class PlantInformationScreen extends StatefulWidget {
 
 class _PlantInformationScreenState extends State<PlantInformationScreen> {
   late PlantInformationBloc plantInformationBloc;
-
-  late ValueNotifier<bool> descriptionPanelShowStatus =
-      ValueNotifier<bool>(false);
 
   @override
   Widget build(BuildContext context) {
@@ -115,13 +106,6 @@ class _PlantInformationScreenState extends State<PlantInformationScreen> {
           ),
           PlantInformationPageInformationPanel(
             plantInformationData: widget.plantInformationData,
-            onDetailTap: () {
-              descriptionPanelShowStatus.value = true;
-            },
-          ),
-          PlantInformationPageDescriptionPanel(
-            text: widget.plantInformationData.plantDescription,
-            showStatusNotifier: descriptionPanelShowStatus,
           ),
         ],
       ),

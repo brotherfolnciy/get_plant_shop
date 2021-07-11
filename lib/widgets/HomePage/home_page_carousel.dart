@@ -92,7 +92,7 @@ class _HomePageCarouselState extends State<HomePageCarousel> {
                         },
                         child: Padding(
                           padding: EdgeInsets.only(
-                              left: 25, right: 20, top: 20, bottom: 20),
+                              left: 25, right: 10, top: 20, bottom: 20),
                           child: HomePageCarouselItem(
                             onPlantItemTap: (plantId) {
                               widget.onPlantItemTap(plantId);
