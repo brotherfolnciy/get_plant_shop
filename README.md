@@ -1,6 +1,6 @@
 # plant_shop
 
-A Flutter app for shop plant
+A Flutter app for purchase plant
 
 ## Getting Started
 
