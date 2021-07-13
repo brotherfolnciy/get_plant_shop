@@ -33,7 +33,7 @@ class Repository {
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tincidunt lobortis erat. Cras sit amet imperdiet sapien. Pellentesque feugiat sem nunc, eget pharetra ante pulvinar eget",
           ["concept"],
           ClimateType.Sunny,
-          PlacementType.Garden),
+          PlacementType.Outdoor),
       Plant(
           3,
           "Cornflower",
@@ -47,26 +47,26 @@ class Repository {
           PlacementType.Outdoor),
       Plant(
           4,
-          "Tulip",
+          "Calathea Crocata",
           87,
           78,
           178,
-          "",
+          "https://cdn.webshopapp.com/shops/30495/files/308362457/calathea-crocata-pot-25-cm-10-flowers.jpg",
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tincidunt lobortis erat. Cras sit amet imperdiet sapien. Pellentesque feugiat sem nunc, eget pharetra ante pulvinar eget",
           ["popular", "concept"],
-          ClimateType.Sunny,
-          PlacementType.Garden),
+          ClimateType.Wet,
+          PlacementType.Indoor),
       Plant(
           5,
-          "Одуванчик",
+          "Amaryllis",
           98,
           45,
           50,
-          "http://cdn.shopify.com/s/files/1/0068/5614/7055/products/red-rosepot_2048x2048_657df2b8-7e08-4253-b8a2-3c73ea4f6638_2048x2048.png?v=1555341812.png",
+          "https://www.pnglib.com/wp-content/uploads/2020/08/pink-and-white-amaryllis-in-flower-pot_5f3e5a40c6f9d.png",
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tincidunt lobortis erat. Cras sit amet imperdiet sapien. Pellentesque feugiat sem nunc, eget pharetra ante pulvinar eget",
           ["new", "concept"],
           ClimateType.Cold,
-          PlacementType.Outdoor),
+          PlacementType.Indoor),
     ];
     categories = ["Concept", "Popular", "New"];
     currentPlantFilter = PlantFilterController.emptyPlantFilter;

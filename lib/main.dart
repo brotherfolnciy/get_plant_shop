@@ -25,7 +25,6 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
     ]);
-
     return MultiProvider(
       providers: [
         Provider<HomeBloc>(
@@ -42,6 +41,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Plant Shop',
         theme: ThemeData(
+          brightness: Brightness.light,
           backgroundColor: Colors.white,
           fontFamily: GoogleFonts.lato().fontFamily,
           accentColor: HexColor("20B25D"),

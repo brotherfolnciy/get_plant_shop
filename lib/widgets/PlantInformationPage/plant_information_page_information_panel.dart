@@ -214,7 +214,7 @@ class _PlantInformationPageInformationPanelState
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(top: 25),
+                      padding: EdgeInsets.only(top: 25, bottom: 15),
                       child: Container(
                         child: Column(
                           children: [
@@ -223,32 +223,64 @@ class _PlantInformationPageInformationPanelState
                               child: Row(
                                 children: [
                                   Container(
-                                    height: 45,
+                                    height: 33,
                                     alignment: Alignment.centerLeft,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        pageController.animateToPage(0,
-                                            duration:
-                                                Duration(milliseconds: 500),
-                                            curve: Curves.easeOutQuad);
+                                    child: TextButton(
+                                      onPressed: () {
+                                        pageController.animateToPage(
+                                          0,
+                                          duration: Duration(milliseconds: 200),
+                                          curve: Curves.easeOutQuad,
+                                        );
                                       },
-                                      child: Icon(
-                                        Icons.arrow_back,
-                                        size: 20,
+                                      child: Container(
+                                        padding:
+                                            EdgeInsets.symmetric(horizontal: 5),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                "Description".toUpperCase(),
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  letterSpacing: 0.3,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.only(
+                                                  top: 2, left: 15),
+                                              alignment: Alignment.center,
+                                              child: ImageIcon(
+                                                AssetImage(
+                                                    "assets/images/icons/cross-icon.png"),
+                                                color: Colors.black,
+                                                size: 13.5,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      style: ButtonStyle(
+                                        overlayColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.white),
+                                        shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12.5),
+                                            side: BorderSide(
+                                                color: Colors.grey.shade200),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 7.5),
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "Description",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: 0.3),
-                                    ),
-                                  )
                                 ],
                               ),
                             ),
@@ -256,7 +288,8 @@ class _PlantInformationPageInformationPanelState
                               flex: 8,
                               child: Container(
                                 child: ListView(
-                                  padding: EdgeInsets.only(top: 0, bottom: 0),
+                                  padding:
+                                      EdgeInsets.only(top: 7.5, bottom: 15),
                                   physics: BouncingScrollPhysics(),
                                   children: [
                                     Text(

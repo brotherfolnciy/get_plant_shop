@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:plant_shop/Controllers/home_page_carousel_controller.dart';
 import 'package:plant_shop/Controllers/home_page_categories_controller.dart';
+import 'package:plant_shop/screens/BasketScreen/BasketBlocScreen.dart';
 import 'package:plant_shop/screens/PlantInformationScreen/PlantInformationBlocScreen.dart';
 import 'package:plant_shop/widgets/HomePage/home_page_carousel.dart';
 import 'package:plant_shop/widgets/HomePage/home_page_carousel_item.dart';
@@ -87,7 +88,14 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       actions: [
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BasketScreen(),
+              ),
+            );
+          },
           iconSize: 23,
           icon: Badge(
             badgeColor: Theme.of(context).accentColor,
@@ -196,19 +204,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Expanded(
                                       child: plantsDataList.length > 0
                                           ? HomePageCarousel(
-                                              controller:
-                                                  homePageCarouselController,
                                               anchor: 0.01,
                                               velocityFactor: 1,
                                               center: false,
                                               itemExtent: 315,
-                                              onSelectedItemChange: (value) {},
                                               plantsListForBuild:
                                                   plantsDataList,
                                               onPlantItemTap: (plantId) {
                                                 routeToPlantInformationScreen(
                                                     context, plantId);
                                               },
+                                              onSelectedCardChanges: (index) {},
                                             )
                                           : Container(
                                               alignment: Alignment.center,

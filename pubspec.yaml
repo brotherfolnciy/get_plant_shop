@@ -38,7 +38,8 @@ dependencies:
   extended_image: ^4.1.0
   badges: ^2.0.1
   provider: ^5.0.0
-  readmore: ^2.1.0
+  internet_connection_checker: ^0.0.1+1
+  linked_scroll_controller: ^0.2.0
 
 dev_dependencies:
   flutter_test:

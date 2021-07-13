@@ -8,12 +8,13 @@ class HomePageSpansCarousel extends StatefulWidget {
   HomePageSpansCarousel({
     required this.itemsCount,
     required this.spanPadding,
-    required this.controller,
+    required this.selectedItemNotifier,
   });
 
   final int itemsCount;
   final double spanPadding;
-  final HomePageCarouselController controller;
+
+  final ValueNotifier<int> selectedItemNotifier;
 
   @override
   _HomePageSpansCarouselState createState() =>
@@ -23,15 +24,12 @@ class HomePageSpansCarousel extends StatefulWidget {
 class _HomePageSpansCarouselState extends State<HomePageSpansCarousel>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
+  final InfiniteScrollController spanController = InfiniteScrollController();
   late EzAnimation animation;
-
-  late InfiniteScrollController _spanScrollController;
 
   @override
   void initState() {
     super.initState();
-    _spanScrollController = InfiniteScrollController();
-
     controller = new AnimationController(vsync: this);
     animation = EzAnimation.sequence([
       SequenceItem(widget.spanPadding - 5, 8.0),
@@ -39,9 +37,8 @@ class _HomePageSpansCarouselState extends State<HomePageSpansCarousel>
 
     animation.addStatusListener((status) => reverseAnimation(status));
 
-    widget.controller.addListener(() {
-      _spanScrollController.animateToItem(widget.controller.selectedItemIndex);
-      animation.start();
+    widget.selectedItemNotifier.addListener(() {
+      spanController.animateToItem(widget.selectedItemNotifier.value);
     });
   }
 
@@ -51,6 +48,7 @@ class _HomePageSpansCarouselState extends State<HomePageSpansCarousel>
     super.dispose();
     animation.removeListener(() => reverseAnimation);
     animation.dispose();
+    widget.selectedItemNotifier.dispose();
   }
 
   startAnimation() {
@@ -65,7 +63,6 @@ class _HomePageSpansCarouselState extends State<HomePageSpansCarousel>
 
   @override
   Widget build(BuildContext context) {
-    _spanScrollController.animateToItem(0);
     return widget.itemsCount > 0
         ? SizedBox(
             height: 30,
@@ -77,9 +74,9 @@ class _HomePageSpansCarouselState extends State<HomePageSpansCarousel>
                     center: true,
                     loop: false,
                     anchor: 0,
-                    controller: _spanScrollController,
+                    controller: spanController,
                     onIndexChanged: (index) {
-                      widget.controller.setValue(index);
+                      spanController.animateToItem(index);
                     },
                     itemBuilder: (context, itemIndex, realIndex) {
                       return getCaruselSpan(itemIndex);

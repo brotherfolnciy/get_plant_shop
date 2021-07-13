@@ -36,15 +36,14 @@ class _PlantInformationPageFavouritesButtonState
             onPressed: () {
               isPressed.value = !value;
             },
-            child: AnimatedContainer(
-              duration: Duration(milliseconds: 50),
+            child: Container(
+              alignment: Alignment.center,
               height: 55,
               width: 55,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white,
               ),
-              padding: EdgeInsets.all(15.5),
               child: ImageIcon(
                 AssetImage("assets/images/icons/heart-icon.png"),
                 color: value

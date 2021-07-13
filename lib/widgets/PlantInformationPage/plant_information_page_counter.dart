@@ -32,7 +32,7 @@ class _PlantInformationPageCounterState
       builder: (context, value, child) {
         return Container(
           height: 32.5,
-          width: 100,
+          width: count.value < 100 ? 105 : 115,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border.all(color: Colors.grey.shade300),
@@ -41,27 +41,38 @@ class _PlantInformationPageCounterState
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Flexible(
-                flex: 1,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Bounce(
-                    duration: Duration(
-                      milliseconds: 100,
-                    ),
-                    onPressed: () {
-                      setCountValue(-1);
-                    },
+              SizedBox(
+                width: 32.5,
+                child: TextButton(
+                  onPressed: () {
+                    setCountValue(-1);
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
                     child: ImageIcon(
                       AssetImage("assets/images/icons/dicrement-icon.png"),
                       size: 12,
+                      color: Colors.black,
+                    ),
+                  ),
+                  style: ButtonStyle(
+                    overlayColor:
+                        MaterialStateProperty.all<Color>(Colors.black12),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(3.5),
+                          bottomLeft: Radius.circular(3.5),
+                        ),
+                        side: BorderSide(color: Colors.transparent),
+                      ),
                     ),
                   ),
                 ),
               ),
-              Flexible(
-                flex: 1,
+              Expanded(
                 child: Container(
+                  alignment: Alignment.center,
                   child: Text(
                     "${count.value}",
                     style: TextStyle(
@@ -71,20 +82,33 @@ class _PlantInformationPageCounterState
                   ),
                 ),
               ),
-              Flexible(
-                flex: 1,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Bounce(
-                    duration: Duration(
-                      milliseconds: 100,
+              SizedBox(
+                width: 32.5,
+                child: TextButton(
+                  onPressed: () {
+                    setCountValue(1);
+                  },
+                  child: Container(
+                    height: 70,
+                    width: 70,
+                    alignment: Alignment.center,
+                    child: ImageIcon(
+                      AssetImage("assets/images/icons/increment-icon.png"),
+                      size: 12,
+                      color: Colors.black,
                     ),
-                    onPressed: () {
-                      setCountValue(1);
-                    },
-                    child: Icon(
-                      Icons.add,
-                      size: 22,
+                  ),
+                  style: ButtonStyle(
+                    overlayColor:
+                        MaterialStateProperty.all<Color>(Colors.black12),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(3.5),
+                          bottomRight: Radius.circular(3.5),
+                        ),
+                        side: BorderSide(color: Colors.transparent),
+                      ),
                     ),
                   ),
                 ),
