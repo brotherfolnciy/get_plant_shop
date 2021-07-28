@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class FilterPanelData {
@@ -47,19 +46,15 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
     super.initState();
     currentPlacementSelect.addListener(() {
       filterPanelData.filterPlacementTypeName = currentPlacementSelect.value;
-      print('${currentPlacementSelect.value} set in filter');
       lastSelectedPlacementType = currentPlacementSelect.value;
     });
     currentClimateSelect.addListener(() {
       filterPanelData.filterClimateTypeName = currentClimateSelect.value;
-      print('${currentClimateSelect.value} set in filter');
       lastSelectedClimateType = currentClimateSelect.value;
     });
     currentPriceRangeValues.addListener(() {
       filterPanelData.filterPriceMin = currentPriceRangeValues.value.start;
       filterPanelData.filterPriceMax = currentPriceRangeValues.value.end;
-      print(
-          '${filterPanelData.filterPriceMin} : ${filterPanelData.filterPriceMax}');
     });
   }
 

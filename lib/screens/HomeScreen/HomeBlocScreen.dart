@@ -215,6 +215,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     context, plantId);
                                               },
                                               onSelectedCardChanges: (index) {},
+                                              onPlantItemAddTap: (plantId) {
+                                                homeBloc
+                                                    .addPlantPurchase(plantId);
+                                              },
                                             )
                                           : Container(
                                               alignment: Alignment.center,

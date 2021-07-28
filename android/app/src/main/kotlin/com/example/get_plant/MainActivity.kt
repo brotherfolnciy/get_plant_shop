@@ -1,4 +1,4 @@
-package com.example.plant_shop
+package com.example.get_plant
 
 import android.os.Build
 import android.os.Bundle

@@ -2,14 +2,16 @@ import 'dart:async';
 
 import 'package:plant_shop/models/filter.dart';
 import 'package:plant_shop/models/plant.dart';
+import 'package:plant_shop/models/plant_purchase.dart';
 import 'package:plant_shop/models/repository.dart';
+import 'package:plant_shop/screens/Bloc.dart';
 import 'package:plant_shop/screens/HomeScreen/HomeBlocScreen.dart';
 import 'package:plant_shop/screens/PlantInformationScreen/PlantInformationBloc.dart';
 import 'package:plant_shop/screens/PlantInformationScreen/PlantInformationBlocScreen.dart';
 import 'package:plant_shop/widgets/HomePage/home_page_carousel_item.dart';
 
-class HomeBloc {
-  HomeBloc({required this.repository});
+class HomeBloc extends Bloc {
+  HomeBloc({required this.repository}) : super(repository);
 
   final Repository repository;
 
@@ -101,6 +103,12 @@ class HomeBloc {
     _currentPlantFilter = plantFilter;
   }
 
+  void addPlantPurchase(int plantId) {
+    repository.addPurchasePlant(
+      PlantPurchaseRequest(plantId, 1, "1"),
+    );
+  }
+
   PlantInformationData getPlantInformationDataFromPlantId(int plantId) {
     Plant plant =
         repository.plants.singleWhere((element) => element.id == plantId);
@@ -139,7 +147,7 @@ class HomeBloc {
     return repository.categories;
   }
 
-  //
+  @override
   void dispose() {
     _viewPlantsDataListController.close();
     _categoriesListStreamController.close();

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
-import 'package:linked_scroll_controller/linked_scroll_controller.dart';
-import 'package:plant_shop/Controllers/home_page_carousel_controller.dart';
 import 'package:plant_shop/widgets/HomePage/home_page_carousel_item.dart';
 import 'package:plant_shop/widgets/HomePage/home_page_carousel_spans.dart';
 
@@ -14,6 +12,7 @@ class HomePageCarousel extends StatefulWidget {
     required this.itemExtent,
     required this.plantsListForBuild,
     required this.onPlantItemTap,
+    required this.onPlantItemAddTap,
   });
 
   final Function(int) onSelectedCardChanges;
@@ -22,10 +21,9 @@ class HomePageCarousel extends StatefulWidget {
   final double anchor;
   final bool center;
   final double velocityFactor;
-
   final List<PlantItemData> plantsListForBuild;
-
   final Function(int) onPlantItemTap;
+  final Function(int) onPlantItemAddTap;
 
   @override
   _HomePageCarouselState createState() => _HomePageCarouselState();
@@ -68,7 +66,6 @@ class _HomePageCarouselState extends State<HomePageCarousel> {
                     itemBuilder: (context, itemIndex, realIndex) {
                       final plant = widget.plantsListForBuild[itemIndex];
                       final currentOffset = widget.itemExtent * realIndex;
-                      print(plant.imageUrl);
                       return AnimatedBuilder(
                         animation: _cardsController,
                         builder: (context, child) {
@@ -91,6 +88,9 @@ class _HomePageCarouselState extends State<HomePageCarousel> {
                           child: HomePageCarouselItem(
                             onPlantItemTap: (plantId) {
                               widget.onPlantItemTap(plantId);
+                            },
+                            onPlantItemAddTap: (plantId) {
+                              widget.onPlantItemAddTap(plantId);
                             },
                             imageUrl: plant.imageUrl,
                             price: plant.price,

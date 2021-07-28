@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 
-class Pot {
-  Pot(this.potName, this.imageFilePath);
+class PotData {
+  PotData(this.potName, this.imageFilePath);
 
   final String potName;
   final String imageFilePath;
@@ -18,11 +18,11 @@ class PlantInformationPagePotSelector extends StatefulWidget {
       required this.onPotSelect})
       : super(key: key);
 
-  final List<Pot> pots;
+  final List<PotData> pots;
   final double itemHeight;
   final double itemWidth;
   final double itemsPadding;
-  final Function(Pot) onPotSelect;
+  final Function(PotData) onPotSelect;
 
   @override
   _PlantInformationPagePotSelectorState createState() =>

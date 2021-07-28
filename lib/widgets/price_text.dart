@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class PriceText extends StatelessWidget {
-  const PriceText(this.price);
+  const PriceText(this.price, this.fontSize);
 
   final int price;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +17,17 @@ class PriceText extends StatelessWidget {
           children: [
             Text(
               "\$",
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: fontSize - 8, fontWeight: FontWeight.bold),
             ),
             Text(
               "$price",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
             ),
             Text(
               ".00",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: fontSize - 6, fontWeight: FontWeight.bold),
             ),
           ],
         ),

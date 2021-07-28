@@ -2,7 +2,6 @@ import 'package:ezanimation/ezanimation.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
-import 'package:plant_shop/Controllers/home_page_carousel_controller.dart';
 
 class HomePageSpansCarousel extends StatefulWidget {
   HomePageSpansCarousel({

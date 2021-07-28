@@ -1,10 +1,16 @@
+import 'package:plant_shop/models/pot.dart';
 import 'package:plant_shop/models/filter.dart';
 import 'package:plant_shop/models/plant.dart';
+import 'package:plant_shop/models/plant_purchase.dart';
+import 'package:uuid/uuid.dart';
 
 class Repository {
   late List<Plant> plants;
   late List<String> categories;
+  late List<Pot> baskets;
   late PlantFilter currentPlantFilter;
+
+  late List<PlantPurchase> purchasedPlants;
 
   Repository() {
     initializeRepository();
@@ -69,11 +75,59 @@ class Repository {
           PlacementType.Indoor),
     ];
     categories = ["Concept", "Popular", "New"];
+    baskets = [
+      Pot('1', 'assets/images/pots/pot_1.png'),
+      Pot('2', 'assets/images/pots/pot_2.png'),
+      Pot('3', 'assets/images/pots/pot_3.png'),
+    ];
     currentPlantFilter = PlantFilterController.emptyPlantFilter;
+    purchasedPlants = [];
   }
 
   Plant getPlantById(int id) {
     return plants.where((element) => element.id == id).toList().first;
+  }
+
+  addPurchasePlant(PlantPurchaseRequest plantPurchaseRequest) {
+    bool isMissed = true;
+
+    PlantPurchase plantPurchase = PlantPurchase(
+      Uuid().v1(),
+      plants
+          .singleWhere((element) => element.id == plantPurchaseRequest.plantId),
+      plantPurchaseRequest.count,
+      plantPurchaseRequest.potName,
+    );
+
+    purchasedPlants.forEach((element) {
+      if (element.plant == plantPurchase.plant &&
+          element.potName == plantPurchaseRequest.potName) {
+        element.count += plantPurchaseRequest.count;
+        isMissed = false;
+      }
+    });
+    if (isMissed == true) purchasedPlants.add(plantPurchase);
+  }
+
+  removePurchasePlantById(String id) {
+    purchasedPlants.removeWhere((element) => element.id == id);
+  }
+
+  sendPurchasesPlants() {
+    int totalPrice = 0;
+
+    print('');
+    print('| User`s purchases');
+    print('|');
+    for (int i = 0; i < purchasedPlants.length; i++) {
+      totalPrice += purchasedPlants[i].plant.price * purchasedPlants[i].count;
+      print(
+          '| ${i + 1} | User purchase ${purchasedPlants[i].plant} with ${purchasedPlants[i].potName} pot in count: ${purchasedPlants[i].count}');
+    }
+    print('|');
+    print(
+        '| Total plants count: ${purchasedPlants.length} | Total plant price: $totalPrice');
+    print('');
   }
 
   int get plantsCount => plants.length;

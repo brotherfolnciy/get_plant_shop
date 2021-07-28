@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bounce/flutter_bounce.dart';
 
 class PlantInformationPageCounter extends StatefulWidget {
   PlantInformationPageCounter({Key? key, required this.onCountChange})

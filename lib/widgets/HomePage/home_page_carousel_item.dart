@@ -27,7 +27,8 @@ class HomePageCarouselItem extends StatefulWidget {
       required this.price,
       required this.imageUrl,
       required this.onPlantItemTap,
-      required this.id})
+      required this.id,
+      required this.onPlantItemAddTap})
       : super(key: key);
 
   final int id;
@@ -36,6 +37,7 @@ class HomePageCarouselItem extends StatefulWidget {
   final int price;
   final String imageUrl;
   final Function(int) onPlantItemTap;
+  final Function(int) onPlantItemAddTap;
 
   @override
   _HomePageCarouselItemState createState() => _HomePageCarouselItemState();
@@ -58,7 +60,7 @@ class _HomePageCarouselItemState extends State<HomePageCarouselItem> {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: HexColor("F1F4FB").withOpacity(0.7),
+          color: Theme.of(context).cardColor.withOpacity(0.7),
           borderRadius: BorderRadius.circular(35),
         ),
         child: Column(
@@ -125,10 +127,12 @@ class _HomePageCarouselItemState extends State<HomePageCarouselItem> {
                     padding: EdgeInsets.only(left: 27.5),
                     height: 40,
                     width: 100,
-                    child: PriceText(widget.price),
+                    child: PriceText(widget.price, 22),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      widget.onPlantItemAddTap(widget.id);
+                    },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
                         HexColor("28CA6B"),
