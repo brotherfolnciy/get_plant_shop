@@ -1,4 +1,4 @@
-# plant_shop
+# Get Plant
 
 Get plant to your home!
 
