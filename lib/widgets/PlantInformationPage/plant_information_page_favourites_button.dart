@@ -47,7 +47,7 @@ class _PlantInformationPageFavouritesButtonState
               child: ImageIcon(
                 AssetImage("assets/images/icons/heart-icon.png"),
                 color: value
-                    ? Theme.of(context).accentColor
+                    ? Theme.of(context).colorScheme.primary
                     : Colors.black.withOpacity(0.4),
               ),
             ),

@@ -68,6 +68,8 @@ class _HomePageCategoriesState extends State<HomePageCategories> {
 
   getCategoriesItem(int index, String selectedCategory) {
     bool isSelected = widget.categories[index] == selectedCategory;
+    debugPrint(
+        "${MediaQuery.of(context).size.width / widget.categories.length}");
     return Container(
       height: 37.5,
       child: MaterialButton(
@@ -99,7 +101,7 @@ class _HomePageCategoriesState extends State<HomePageCategories> {
                 height: 3,
                 width: isSelected ? 21 : 0,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.primary,
                   borderRadius: BorderRadius.circular(3),
                 ),
               ),

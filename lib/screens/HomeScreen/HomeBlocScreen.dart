@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           iconSize: 23,
           icon: Badge(
-            badgeColor: Theme.of(context).accentColor,
+            badgeColor: Theme.of(context).colorScheme.primary,
             alignment: Alignment.topRight,
             badgeContent: Text(
               "3",

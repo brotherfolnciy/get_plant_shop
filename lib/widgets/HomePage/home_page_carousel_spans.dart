@@ -100,7 +100,7 @@ class _HomePageSpansCarouselState extends State<HomePageSpansCarousel>
                         child: Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       );

@@ -83,7 +83,7 @@ class _PlantInformationPagePotSelectorState
             image: DecorationImage(
               colorFilter: ColorFilter.mode(
                 isSelected
-                    ? Theme.of(context).accentColor.withOpacity(0.60)
+                    ? Theme.of(context).colorScheme.primary.withOpacity(0.60)
                     : Colors.transparent,
                 BlendMode.colorBurn,
               ),

@@ -1,6 +1,9 @@
-class User {
-  final String name;
-  final String password;
+import 'package:firebase_auth/firebase_auth.dart';
 
-  User(this.name, this.password);
+class UserData {
+  late String id;
+
+  UserData.fromFirebase(User user) {
+    id = user.uid;
+  }
 }

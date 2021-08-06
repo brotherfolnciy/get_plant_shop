@@ -39,7 +39,7 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
   late ValueNotifier<SfRangeValues> currentPriceRangeValues =
       ValueNotifier<SfRangeValues>(SfRangeValues(0, 799));
 
-  late Color accentColor;
+  late Color primaryColor;
 
   @override
   void initState() {
@@ -60,7 +60,7 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
 
   @override
   Widget build(BuildContext context) {
-    accentColor = Theme.of(context).accentColor;
+    primaryColor = Theme.of(context).colorScheme.primary;
     return Container(
       child: ValueListenableBuilder(
         valueListenable: widget.showStatusNotifier,
@@ -191,7 +191,7 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
                                           max: 799.0,
                                           enableTooltip: true,
                                           tooltipShape: SfPaddleTooltipShape(),
-                                          activeColor: accentColor,
+                                          activeColor: primaryColor,
                                           values: filterPriceRangeValues,
                                           stepSize: 1.0,
                                           onChanged: (values) {
@@ -341,7 +341,7 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
             isSelected ? 5 : 0,
           ),
           backgroundColor: MaterialStateProperty.all<Color>(
-            isSelected ? accentColor : Colors.grey.shade50,
+            isSelected ? primaryColor : Colors.grey.shade50,
           ),
           overlayColor: MaterialStateProperty.all<Color>(
               isSelected ? Colors.white12 : Colors.black12),
@@ -349,7 +349,7 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(19),
               side: BorderSide(
-                  color: isSelected ? accentColor : Colors.grey.shade300),
+                  color: isSelected ? primaryColor : Colors.grey.shade300),
             ),
           ),
           shadowColor: MaterialStateProperty.all<Color>(
@@ -391,7 +391,7 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
                 Size(55, 50),
               ),
               backgroundColor: MaterialStateProperty.all<Color>(
-                isSelected ? accentColor : Colors.grey.shade50,
+                isSelected ? primaryColor : Colors.grey.shade50,
               ),
               overlayColor: MaterialStateProperty.all<Color>(
                   isSelected ? Colors.white12 : Colors.black12),
@@ -399,7 +399,7 @@ class _HomePageFilterPanelState extends State<HomePageFilterPanel> {
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.5),
                   side: BorderSide(
-                      color: isSelected ? accentColor : Colors.grey.shade400),
+                      color: isSelected ? primaryColor : Colors.grey.shade400),
                 ),
               ),
               shadowColor: MaterialStateProperty.all<Color>(

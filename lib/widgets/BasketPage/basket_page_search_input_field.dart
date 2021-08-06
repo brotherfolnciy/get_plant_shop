@@ -57,7 +57,7 @@ class _HomePageSearchInputFieldState extends State<BasketPageSearchInputField>
         focusNode: inputFieldFocusNode,
         keyboardType: TextInputType.text,
         textAlignVertical: TextAlignVertical.center,
-        cursorColor: Theme.of(context).accentColor,
+        cursorColor: Theme.of(context).colorScheme.primary,
         decoration: InputDecoration(
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
@@ -71,6 +71,7 @@ class _HomePageSearchInputFieldState extends State<BasketPageSearchInputField>
         controller: textEditingController,
         onChanged: (value) {
           inputText = value;
+          widget.onInputComplete(inputText);
         },
         onEditingComplete: () {
           widget.onInputComplete(inputText);

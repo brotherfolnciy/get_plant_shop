@@ -105,7 +105,7 @@ class _HomePageSearchInputFieldState extends State<HomePageSearchInputField>
                   focusNode: inputFieldFocusNode,
                   keyboardType: TextInputType.text,
                   textAlignVertical: TextAlignVertical.center,
-                  cursorColor: Theme.of(context).accentColor,
+                  cursorColor: Theme.of(context).colorScheme.primary,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
